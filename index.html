@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SMSVerifyPro - Virtual Numbers for App Verification</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #f8961e;
+            --danger: #e63946;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fb;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 25px;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 8px 20px;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--secondary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Ad Banner */
+        .ad-banner {
+            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+            color: white;
+            padding: 15px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 10px;
+            position: relative;
+            display: none;
+        }
+        
+        .ad-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .ad-close {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .ad-countdown {
+            font-weight: bold;
+            background: rgba(0,0,0,0.2);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .telegram-channel {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 15px;
+            border-radius: 30px;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+        }
+        
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #4361ee, #3a0ca3);
+            color: white;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 50px;
+        }
+        
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        /* Countries Section */
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2rem;
+            color: var(--secondary);
+        }
+        
+        .countries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 60px;
+        }
+        
+        .country-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .country-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .country-flag {
+            height: 150px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .country-info {
+            padding: 20px;
+        }
+        
+        .country-info h3 {
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .country-info p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 50px 0 20px;
+            margin-top: 50px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-column h3 {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 15px 0;
+            }
+            
+            .nav-links {
+                margin: 15px 0;
+            }
+            
+            .auth-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .countries-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .ad-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fas fa-sms"></i>
+                    <span>SMSVerifyPro</span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Pricing</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+                <div class="auth-buttons">
+                    <a href="login.html" class="btn btn-outline">Login</a>
+                    <a href="signup.html" class="btn btn-primary">Sign Up</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Ad Banner -->
+    <div class="container">
+        <div class="ad-banner" id="adBanner">
+            <button class="ad-close" id="closeAd">&times;</button>
+            <div class="ad-content">
+                <div class="ad-countdown" id="adCountdown">15</div>
+                <a href="https://t.me/beyondsig" class="telegram-channel" target="_blank">
+                    <i class="fab fa-telegram"></i>
+                    Join @beyondsig for unlimited deals & quality products
+                </a>
+                <img src="https://via.placeholder.com/150x50/0088cc/ffffff?text=BEYONDSIG" alt="BeyondSig Channel" style="border-radius: 5px;">
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Get Virtual Numbers for App Verification</h1>
+            <p>Access phone numbers from multiple countries to verify accounts on WhatsApp, Telegram, and other platforms</p>
+            <a href="#countries" class="btn btn-primary" style="background: white; color: var(--primary);">Get Started</a>
+        </div>
+    </section>
+
+    <!-- Countries Section -->
+    <section class="container">
+        <h2 class="section-title" id="countries">Available Countries</h2>
+        <div class="countries-grid">
+            <!-- USA -->
+            <div class="country-card">
+                <div class="country-flag" style="background-image: url('https://flagcdn.com/w320/us.png');"></div>
+                <div class="country-info">
+                    <h3>United States</h3>
+                    <p>Virtual numbers for US verification</p>
+                    <div class="price">₦2,000</div>
+                    <div class="payment-options">
+                        <a href="pay.html?country=USA" class="btn btn-outline" style="margin-right: 10px;">Bank Transfer</a>
+                        <a href="card.html?country=USA" class="btn btn-primary">Credit Card</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- UK -->
+            <div class="country-card">
+                <div class="country-flag" style="background-image: url('https://flagcdn.com/w320/gb.png');"></div>
+                <div class="country-info">
+                    <h3>United Kingdom</h3>
+                    <p>Virtual numbers for UK verification</p>
+                    <div class="price">₦2,000</div>
+                    <div class="payment-options">
+                        <a href="pay.html?country=UK" class="btn btn-outline" style="margin-right: 10px;">Bank Transfer</a>
+                        <a href="card.html?country=UK" class="btn btn-primary">Credit Card</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Poland -->
+            <div class="country-card">
+                <div class="country-flag" style="background-image: url('https://flagcdn.com/w320/pl.png');"></div>
+                <div class="country-info">
+                    <h3>Poland</h3>
+                    <p>Virtual numbers for Poland verification</p>
+                    <div class="price">₦2,000</div>
+                    <div class="payment-options">
+                        <a href="pay.html?country=Poland" class="btn btn-outline" style="margin-right: 10px;">Bank Transfer</a>
+                        <a href="card.html?country=Poland" class="btn btn-primary">Credit Card</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Netherlands -->
+            <div class="country-card">
+                <div class="country-flag" style="background-image: url('https://flagcdn.com/w320/nl.png');"></div>
+                <div class="country-info">
+                    <h3>Netherlands</h3>
+                    <p>Virtual numbers for Netherlands verification</p>
+                    <div class="price">₦2,000</div>
+                    <div class="payment-options">
+                        <a href="pay.html?country=Netherlands" class="btn btn-outline" style="margin-right: 10px;">Bank Transfer</a>
+                        <a href="card.html?country=Netherlands" class="btn btn-primary">Credit Card</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Nigeria -->
+            <div class="country-card">
+                <div class="country-flag" style="background-image: url('https://flagcdn.com/w320/ng.png');"></div>
+                <div class="country-info">
+                    <h3>Nigeria</h3>
+                    <p>Virtual numbers for Nigeria verification</p>
+                    <div class="price">₦2,000</div>
+                    <div class="payment-options">
+                        <a href="pay.html?country=Nigeria" class="btn btn-outline" style="margin-right: 10px;">Bank Transfer</a>
+                        <a href="card.html?country=Nigeria" class="btn btn-primary">Credit Card</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- South Africa -->
+            <div class="country-card">
+                <div class="country-flag" style="background-image: url('https://flagcdn.com/w320/za.png');"></div>
+                <div class="country-info">
+                    <h3>South Africa</h3>
+                    <p>Virtual numbers for South Africa verification</p>
+                    <div class="price">₦2,000</div>
+                    <div class="payment-options">
+                        <a href="pay.html?country=South Africa" class="btn btn-outline" style="margin-right: 10px;">Bank Transfer</a>
+                        <a href="card.html?country=South Africa" class="btn btn-primary">Credit Card</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pakistan -->
+            <div class="country-card">
+                <div class="country-flag" style="background-image: url('https://flagcdn.com/w320/pk.png');"></div>
+                <div class="country-info">
+                    <h3>Pakistan</h3>
+                    <p>Virtual numbers for Pakistan verification</p>
+                    <div class="price">₦2,000</div>
+                    <div class="payment-options">
+                        <a href="pay.html?country=Pakistan" class="btn btn-outline" style="margin-right: 10px;">Bank Transfer</a>
+                        <a href="card.html?country=Pakistan" class="btn btn-primary">Credit Card</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- India -->
+            <div class="country-card">
+                <div class="country-flag" style="background-image: url('https://flagcdn.com/w320/in.png');"></div>
+                <div class="country-info">
+                    <h3>India</h3>
+                    <p>Virtual numbers for India verification</p>
+                    <div class="price">₦2,000</div>
+                    <div class="payment-options">
+                        <a href="pay.html?country=India" class="btn btn-outline" style="margin-right: 10px;">Bank Transfer</a>
+                        <a href="card.html?country=India" class="btn btn-primary">Credit Card</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Japan -->
+            <div class="country-card">
+                <div class="country-flag" style="background-image: url('https://flagcdn.com/w320/jp.png');"></div>
+                <div class="country-info">
+                    <h3>Japan</h3>
+                    <p>Virtual numbers for Japan verification</p>
+                    <div class="price">₦2,000</div>
+                    <div class="payment-options">
+                        <a href="pay.html?country=Japan" class="btn btn-outline" style="margin-right: 10px;">Bank Transfer</a>
+                        <a href="card.html?country=Japan" class="btn btn-primary">Credit Card</a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- China -->
+            <div class="country-card">
+                <div class="country-flag" style="background-image: url('https://flagcdn.com/w320/cn.png');"></div>
+                <div class="country-info">
+                    <h3>China</h3>
+                    <p>Virtual numbers for China verification</p>
+                    <div class="price">₦2,000</div>
+                    <div class="payment-options">
+                        <a href="pay.html?country=China" class="btn btn-outline" style="margin-right: 10px;">Bank Transfer</a>
+                        <a href="card.html?country=China" class="btn btn-primary">Credit Card</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>SMSVerifyPro</h3>
+                    <p>Providing virtual numbers for app verification services worldwide.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Services</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">WhatsApp Verification</a></li>
+                        <li><a href="#">Telegram Verification</a></li>
+                        <li><a href="#">Social Media Verification</a></li>
+                        <li><a href="#">App Verification</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Payment Issues</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-envelope"></i> support@smsverifypro.com</a></li>
+                        <li><a href="#"><i class="fab fa-telegram"></i> Telegram: @smsverifypro</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 SMSVerifyPro. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Ad Banner Functionality
+        const adBanner = document.getElementById('adBanner');
+        const closeAd = document.getElementById('closeAd');
+        const adCountdown = document.getElementById('adCountdown');
+        
+        let adTimer;
+        let countdown = 15;
+        
+        function showAd() {
+            adBanner.style.display = 'block';
+            countdown = 15;
+            adCount
